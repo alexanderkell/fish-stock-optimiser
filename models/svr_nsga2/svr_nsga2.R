@@ -29,16 +29,12 @@ fit_svr = function(dat, target, predictors){
 
 
 svr_fun = function(ind){
-    print(paste("ind df: ",ind))
     ind = t(data.frame(ind))
-    print(paste("ind: ",ind))
+    print(paste("ind: ", ind))
    prediction_safety = predict(svr_safety,ind)
    prediction_kobe= predict(svr_kobe,ind)
    result = c(prediction_safety, prediction_kobe)
-   print(result)
-   if(all(is.na(result))){
-        result = c(0, 0)
-   }
+   print(paste("result:",result))
    return(result)
 }
 
