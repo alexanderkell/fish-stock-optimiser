@@ -18,7 +18,7 @@ fit_svr = function(dat, target, predictors, tuneLength=5){
         method = 'svmRadial',
         tuneLength = tuneLength,
         trControl = ctrl,
-        metric = "Rsquared",
+        metric = "MAE",
     )
     return(svrFit)
 }
@@ -34,5 +34,7 @@ svr_fun = function(ind){
 svr_safety = fit_svr(data, "safety", "k1 + k2", 5)$finalModel
 svr_kobe = fit_svr(data, "yield", "k1 + k2", 5)$finalModel
 
-pareto_front = mco::nsga2(fn = svr_fun, idim = 2, odim = 2, lower.bounds = rep(1, 2), upper.bounds = rep(1.4, 2), popsize = 400, generations = 100, cprob = 0.9)
+pareto_front = mco::nsga2(fn = svr_fun, idim = 2, odim = 2, lower.bounds = rep(0, 2), upper.bounds = rep(1.4, 2), popsize = 400, generations = 100, cprob = 0.9)
 print(pareto_front)
+
+ggplot(data=data.frame(pareto_front$value), aes(x=X1, y=X2)) + geom_point() + xlab("safety") + ylab("kobe")
